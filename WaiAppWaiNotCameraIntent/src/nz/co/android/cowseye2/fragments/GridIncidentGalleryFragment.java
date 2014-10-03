@@ -18,6 +18,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.IntentCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class GridIncidentGalleryFragment extends Fragment{
 	private List<Incident> incidents;
 
 	private Handler handler;
+	private int position;
 	
 	/**
 	 * The fragment argument representing the section number for this fragment.
@@ -47,50 +49,25 @@ public class GridIncidentGalleryFragment extends Fragment{
 	 * Returns a new instance of this fragment for the given section number.
 	 */
 	public static GridIncidentGalleryFragment newInstance(int sectionNumber) {
-		GridIncidentGalleryFragment fragment = new GridIncidentGalleryFragment();
+		GridIncidentGalleryFragment fragment = new GridIncidentGalleryFragment(sectionNumber);
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public GridIncidentGalleryFragment() {
+	public GridIncidentGalleryFragment(int position) {
+		this.position = position;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		
+		this.inflater = inflater;
 
 		View rootView = inflater.inflate(R.layout.grid_incident_gallery_layout, container, false);
-
+		inflater.inflate(R.layout.incident_gallery_layout, container, false);		
 		
-		
-		/*if(getActivity() == null){
-			System.out.println("getActivity is null");
-		}
-		if(getActivity().getApplication() == null){
-			System.out.println("getApplication is null");
-		}
-		
-		myApplication = (RiverWatchApplication) getActivity().getApplication();
-		incidents = myApplication.getDatabaseAdapter().getAllIncidents();
-		this.handler = new Handler();		
-		
-		
-		GridView gridview = (GridView) getActivity().findViewById(R.id.gridview);
-		gridview.setAdapter(new ImageAdapter(getActivity()));
-		gridview.setOnItemClickListener(new OnItemClickListener() {
-			Intent intent = new Intent(getActivity(),
-					IncidentGalleryActivity.class);
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View view,
-					int position, long arg3) {
-
-				intent.putExtra("Page Number", position);
-				startActivity(intent);
-			}
-		});
-		*/
 		return rootView;
 	}
 	
@@ -98,27 +75,30 @@ public class GridIncidentGalleryFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 	//	setContentView(R.layout.grid_incident_gallery_layout);
-
+		
 		GridView gridview = (GridView) getActivity().findViewById(R.id.gridview);
 		if(gridview == null){ System.out.println("gridview is null");}
 		gridview.setAdapter(new ImageAdapter(getActivity()));
 		gridview.setOnItemClickListener(new OnItemClickListener() {
-			Intent intent = new Intent(getActivity(),
-					IncidentGalleryActivity.class);
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view,
-					int position, long arg3) {
-
-				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				
-				intent.putExtra("Page Number", position);
-				startActivity(intent);
+					int position, long arg3) {				
+				loadIncidentGallery(position);
 			}
 		});
 		
+		
 		inflater =  (LayoutInflater) getActivity().getApplicationContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+	}
+	
+	public void loadIncidentGallery(int pos){
+
+		//intent.putExtra("Page Number", position);
+		getActivity().getIntent().putExtra("Page Number", pos);
+		FragmentManager fm = this.getFragmentManager();
+		IncidentGalleryFragment f = IncidentGalleryFragment.newInstance(position);
+		fm.beginTransaction().replace(R.id.container, f).commit();
 	}
 
 	@Override
