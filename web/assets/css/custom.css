@@ -1,0 +1,56 @@
+
+
+#adminMenu{
+    display: none
+}
+
+#loginMenu{
+    display: none
+}
+
+/* Fix for google maps */
+#map_canvas img {
+	max-width: 9999px;
+    margin: 0;
+    padding: 0;
+	height: 100%;
+}
+
+/* Width of the modal*/
+
+body .modal {
+    width: 750px;
+    margin: -345px 0 0 -375px;
+}
+
+/* Height of the content section of the modal*/
+
+.modal-body {
+    max-height: 550px;
+}
+
+
+/* Prevent the modal from scrolling */
+body.modal-open {
+    overflow: hidden;
+}
+
+#ajaxLoader{
+	padding:4px;
+	display:none;
+	padding:4px;
+	width:32px;
+	height:32px;
+}
+
+#over_map { position: absolute; top: 50px; left: 10px; z-index: 99; }
+
+.left{
+float:left;
+}
+
+#overview{
+	background-image:url('../img/RWBanner.png');
+	height: 160px;
+	margin-top: -20px;
+}

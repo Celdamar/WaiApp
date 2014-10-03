@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/river_bg"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/PreviewImageTitle"
+            style="@style/field_title_style"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/preview_image" />
+
+        <FrameLayout style="@style/preview_image_framelayout_style" >
+
+            <ImageView
+                android:id="@+id/Preview_Image_Image"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:contentDescription="@string/preview_image"
+                android:src="@drawable/next_button"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/PreviewLocationTag"
+            style="@style/field_title_style"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/preview_location" />
+
+        <TextView
+            android:id="@+id/PreviewLocationText"
+            style="@style/text_view_style"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/preview_location" />
+
+        <TextView
+            android:id="@+id/PreviewImageTagTitle"
+            style="@style/field_title_style"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/preview_imagetagtitle" />
+
+        <TextView
+            android:id="@+id/PreviewImageTag"
+            style="@style/text_view_style"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="@string/preview_imagetag" />
+
+        <TextView
+            android:id="@+id/PreviewDescriptionTitle"
+            style="@style/field_title_style"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/preview_descriptiontitle" />
+
+        <TextView
+            android:id="@+id/PreviewDescriptionText"
+            style="@style/text_view_style"
+            android:layout_gravity="center_horizontal"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:text="@string/preview_description" />
+
+        <Button
+            android:id="@+id/submit_button"
+            style="@style/riverWatchButtonStyle"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:onClick="SubmitButton"
+            android:text="@string/submit" />
+    </LinearLayout>
+
+</LinearLayout>

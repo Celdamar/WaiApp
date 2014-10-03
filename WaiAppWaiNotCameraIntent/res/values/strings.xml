@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_section1">Submit Incident</string>
+    <string name="title_section2">Water Reading</string>
+    <string name="title_section3">Incident Gallery</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="Submit_Activity">Submit Activity</string>
+    <string name="title_activity_blank">BlankActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="submit_start">Start</string>
+    <string name="app_name">River Watch</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="select_location">Select Location</string>
+    <string name="description_labeltitle"> Enter Image Description </string>
+    <string name="tag_labeltitle"> Select Image Tags </string>
+    <string name="submit">Submit Incident</string>
+    <string name="noPhotoAdded">No photo added</string>
+    <string name="noLocationRecorded">No location recorded</string>
+    <string name="noDescriptionAdded">No description added</string>
+    <string name="noContactDetailsAdded">No contact details added</string>
+    <string name="contactDetailsAdded">Contact details added</string>
+    <string name="submit_pollution_event">Submit Incident</string>
+    <string name="view_submission_gallery">View Incidents</string>
+    <string name="back">Back</string>
+    <string name="done">Done</string>
+    <string name="next">Next</string>
+    <string name="description_title">Describe Incident</string>
+    <string name="noDescriptionEntered">No Description Entered</string>
+    <string name="please_select_a_image">Please select an Image</string>
+    <string name="pleaseEnterDescription">Please enter a description of the problem</string>
+    <string name="pleaseChooseTags">Please choose image tag(s) </string>
+    <string name="pleaseEnterAddress">Please enter an address</string>
+    <string name="nocoordinates">No Coordinates (Lat,Lon) found</string>
+    <string name="gps_message_submission">Submitting a pollution event uses GPS to tag your location. However your GPS seems to be disabled, do you want to
+		enable it?</string>
+    <string name="gps_message">Your GPS seems to be disabled, do you want to
+		enable it?</string>
+    <string name="no_internet_message">No internet connection detected, do you want to
+		enable it?</string>
+    <string name="positive_button_title">Yes</string>
+    <string name="negative_button_title">No</string>
+    <string name="gps_no_location_message">Cannot convert geo coordinates to a valid address. Please continue</string>
+    <string name="locationTitle">Record Location</string>
+    <string name="userAddress">Address</string>
+    <string name="errorInReverseGeoCoding">Unable to convert location coordinates to address</string>
+    <string name="thisIsTheLocationFound">This is the location found</string>
+    <string name="newLocationFound">New location found...</string>
+    <string name="wouldYouLikeToUpdate">Would you like to update your position?</string>
+    <string name="noAddressFound">No address found at location:</string>
+    <string name="wouldYouLikeToUpdateStill">Would you like to update your location?</string>
+    <string name="errorInGeoCoding">Unable to convert address to location coordinates</string>
+    <string name="pleaseCompleteAllSteps">Please complete all steps before submitting your incident</string>
+    <string name="select_image_title">Select Image</string>
+    <string name="preview_title">Preview Incident</string>
+    <string name="preview_image">Image</string>
+    <string name="preview_location">Location</string>
+    <string name="preview_descriptiontitle"> Description</string>
+    <string name="preview_description"> Description</string>
+    <string name="preview_imagetag"> Image Tag </string>
+    <string name="preview_imagetagtitle"> Tag </string>
+    <string name="map_not_ready">Map is not ready yet</string>
+    <string name="no_preview_available">No Preview Available</string>
+    <string name="select_image_from_gallery">Select Image From Gallery</string>
+    <string name="take_picture_title">Capture Image</string>
+    <string name="incident_view_gallery_title">Gallery</string>
+    <string name="incident_view_grid_title">Incident Gallery </string>
+    <string name="failed_camera_please_try_again">Failed to save image, please try again</string>
+    <string name="failed_to_connect_to_camera_message">Failed to open camera. Please try again later</string>
+    <string name="geocoordinates_text">Geocoordinate location:</string>
+    <string name="success_submission_msg">You have succesfully submitted a river pollution incident.</string>
+    <string name="failure_submission_msg">Your incident submission was unsuccessful. Please try again later.</string>
+    <string name="failure_load_images_msg">Failed to obtain river pollution images. Please try again later.</string>
+    <string name="sending_incident_title">Incident Submission</string>
+    <string name="sending_incident_msg">Submitting your river pollution incident...</string>
+    <string name="sending_incident_msg_please_wait">Please wait</string>
+    <string name="loading_images_title">Loading River Pollution Images</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="main_screen_image"> Main Image </string>
+
+    <string-array name="drawer_titles">
+        <item>Submit Incident</item>
+        <item>Water Reading</item>
+        <item>Incident Gallery</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <activity xmlns:android="http://schemas.android.com/apk/res/android" android:theme="@style/Theme.Sherlock"> -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/river_bg"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <fragment
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        class="com.google.android.gms.maps.SupportMapFragment"/>
+
+    
+
+</LinearLayout>

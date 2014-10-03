@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/details_background"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/details_background"
+        android:orientation="horizontal" >
+
+        <nz.co.android.cowseye2.view.RiverWatchGallery
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/incident_gallery"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:keepScreenOn="true"
+            android:soundEffectsEnabled="false"
+            android:spacing="0dp"
+            android:unselectedAlpha="1.0" >
+        </nz.co.android.cowseye2.view.RiverWatchGallery>
+    </FrameLayout>
+
+     <ScrollView
+        android:id="@+id/thumbnails_scrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/holding_thumbs_linear_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:id="@+id/holding_thumbs_frame_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal" >
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

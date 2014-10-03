@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/river_bg"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/button"
+        style="@style/riverWatchButtonStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="SelectTagButtonClick"
+        android:text="Select Image Tags" >
+    </Button>
+
+    <TextView
+        android:id="@+id/EnterDescriptionLabel"
+        style="@style/text_view_style"
+        android:paddingTop="10dp"
+        android:text="@string/description_labeltitle" />
+
+    <EditText
+        android:id="@+id/descriptionText"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:windowSoftInputMode="stateHidden" >
+    </EditText>
+
+</LinearLayout>

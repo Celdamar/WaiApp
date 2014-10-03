@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>River Watch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+       <style> 
+	  body {
+        padding-top: 40px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+	 
+	  
+	  html, body { height: 100% }
+    </style>
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="assets/css/custom.css" rel="stylesheet">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+	
+  </head>
+
+  <body>
+
+   	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">River Watch</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="gridview.html">Incident Gallery</a></li>
+				<li class = "active"><a href="mapview.html">Incident Map</a></li>
+				<li><a href="feedback.html">Contact Us</a></li>
+            </ul>
+			<ul class="nav pull-right">
+			<li><img id = "ajaxLoader" src="assets/img/load.gif"></li>
+				<li id="adminMenu" class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Administration <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+						<li><a href="approveincident.html">Approve Incidents</a></li>
+						<li><a href="approvecomment.html">Approve Comments</a></li>
+												<form action="http://api.riverwatch.co.nz:80/wainz/logout" id="form_logout" style= "padding:5px;margin:0px;" accept-charset="utf-8" method="post">
+			                <input class="btn btn-primary" id = "logoutButton" type="submit" value="Log Out">
+						</form>
+                    </ul>
+                </li>
+				<li id="loginMenu" class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                       Log in <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+						<form action="http://api.riverwatch.co.nz:80/wainz/login" id="form_login" style= "padding:5px;margin:0px;" accept-charset="utf-8" method="post">
+							<input id="usernameInput" name="username" type="text" placeholder="UserName">
+							<input id="passwordInput" name="password" type="password" placeholder="Password">
+			                <input class="btn btn-primary" id = "loginButton" type="submit" value="Submit">
+						</form>
+                    </ul>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+		<div id="over_map"> 
+			<div class="well" style="max-width: 340px; padding: 8px 0;">
+				<ul class="nav nav-list">
+					<li class="nav-header">Incident Navigation</li>
+					
+					<li><a id="nextBtn" href="#"><i class="icon-arrow-right icon-black"></i> Next</a></li>
+					<li><a id="prevBtn" href="#"><i class="icon-arrow-left icon-black"></i> Prev</a></li>
+
+					<li class="nav-header">Show Incidents</li>
+					<li><a id = "d16" href="#"><i class="icon-th-large icon-black"></i> 16</a></li>
+					<li><a id = "d32" href="#"><i class="icon-th-large icon-black"></i> 32</a></li>
+					<li><a id = "d64" href="#"><i class="icon-th-large icon-black"></i> 64</a></li>
+					<li><a id = "d128" href="#"><i class="icon-th-large icon-black"></i> 128</a></li>
+					<li><a id = "d256" href="#"><i class="icon-th-large icon-black"></i> 256</a></li>
+				</ul>
+            </div>
+		</div>
+	<div id="map_canvas"></div>
+
+		<!--<iframe width="100%" height="100%" frameborder="0" src="map.html"></iframe>-->
+		
+
+	<!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster 
+    <script src="../..assets/js/jquery.js"></script>
+    <script src="../..assets/js/bootstrap-transition.js"></script>
+    <script src="../..assets/js/bootstrap-alert.js"></script>
+    <script src="../..assets/js/bootstrap-modal.js"></script>
+    <script src="../..assets/js/bootstrap-dropdown.js"></script>
+    <script src="../..assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../..assets/js/bootstrap-tab.js"></script>
+    <script src="../..assets/js/bootstrap-tooltip.js"></script>
+    <script src="../..assets/js/bootstrap-popover.js"></script>
+    <script src="../..assets/js/bootstrap-button.js"></script>
+    <script src="../..assets/js/bootstrap-collapse.js"></script>
+    <script src="../..assets/js/bootstrap-carousel.js"></script>
+    <script src="../..assets/js/bootstrap-typeahead.js"></script>
+-->
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	
+	<script src="assets/js/jquery.js"></script>
+	<script src="assets/js/bootstrap.js"></script>
+	<script src="assets/js/bootstrap-transition.js"></script>
+	<script src="assets/js/bootstrap-modal.js"></script>
+	
+	<script src="assets/js/AjaxCommons.js"></script>
+	<script src="assets/js/Mapview.js"></script>
+	<script src="assets/js/IncidentModal.js"></script>
+	<script src="assets/js/Users.js"></script>
+	
+  </body>
+</html>
