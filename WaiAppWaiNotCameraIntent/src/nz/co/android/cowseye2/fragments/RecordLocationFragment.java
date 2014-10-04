@@ -1,6 +1,8 @@
 package nz.co.android.cowseye2.fragments;
 
 import nz.co.android.cowseye2.R;
+import nz.co.android.cowseye2.activity.DescriptionActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,6 +34,15 @@ public class RecordLocationFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.location_layout, container,
 				false);
 		return rootView;
+	}
+	
+
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((DescriptionActivity) activity).onSectionAttached(getArguments()
+				.getInt(ARG_SECTION_NUMBER));
 	}
 
 }

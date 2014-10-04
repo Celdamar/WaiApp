@@ -431,14 +431,13 @@ public class MainScreenActivity extends ActionBarActivity implements
 							.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
 									bitmap.getHeight(), matrix, true);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				cameraFileUri = Uri.parse(saveBitmapToDisk(bitmap));
 				deleteIntentFile();
 				submissionEventBuilder.setImagePath(cameraFileUri);
 				startActivity(new Intent(MainScreenActivity.this,
-						DescriptionActivity.class)
+						RecordLocationActivity.class)
 						.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			} catch (Exception e) {
 				Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
@@ -449,7 +448,6 @@ public class MainScreenActivity extends ActionBarActivity implements
 	}
 
 	private void deleteIntentFile() {
-		// TODO Auto-generated method stub
 		File photo = new File(Environment.getExternalStorageDirectory(),
 				"Pic.jpg");
 		photo.delete();

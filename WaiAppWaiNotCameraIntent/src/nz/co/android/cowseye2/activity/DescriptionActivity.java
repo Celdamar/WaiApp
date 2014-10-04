@@ -119,11 +119,8 @@ public class DescriptionActivity extends AbstractSubmissionActivity {
 				toast.show();
 
 			} else {
-				//TODO remove this submissionEventBuilder.setGeoCoordinates call, only for testing.
-				//submissionEventBuilder.setGeoCoordinates(new LatLng(10,10));
 				Intent intent = new Intent(DescriptionActivity.this,
-						RecordLocationActivity.class);	//TODO this is the correct one, other is just for testing
-						//PreviewActivity.class);
+						PreviewActivity.class);	
 				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				intent.setFlags(IntentCompat.FLAG_ACTIVITY_TASK_ON_HOME
 						| Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -104,7 +104,7 @@ public class SelectImageActivity extends AbstractSubmissionActivity {
 			submissionEventBuilder.setFromGallery(fromGallery);
 			// start description activity
 			startActivity(new Intent(SelectImageActivity.this,
-					DescriptionActivity.class));
+					RecordLocationActivity.class));
 			// Toast.makeText(SelectImageActivity.this,
 			// getString(R.string.saving_image), Toast.LENGTH_LONG).show();
 		} else
