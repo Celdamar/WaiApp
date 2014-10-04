@@ -1,14 +1,11 @@
 package nz.co.android.cowseye2.fragments;
 
 import nz.co.android.cowseye2.R;
-import nz.co.android.cowseye2.activity.RecordLocationActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.gms.maps.SupportMapFragment;
 
 public class RecordLocationFragment extends Fragment {
 	/**
@@ -26,7 +23,6 @@ public class RecordLocationFragment extends Fragment {
 		fragment.setArguments(args);
 		return fragment;
 	}
-
 	public RecordLocationFragment() {
 	}
 
@@ -36,12 +32,6 @@ public class RecordLocationFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.location_layout, container,
 				false);
 		return rootView;
-	}
-
-	public SupportMapFragment getMap(RecordLocationActivity Activity) {
-		System.out.println("1111111111111111111111111111111111111111111");
-		return (SupportMapFragment) Activity.getSupportFragmentManager()
-				.findFragmentById(R.id.mapview);
 	}
 
 }

@@ -3,8 +3,6 @@ package nz.co.android.cowseye2.activity;
 import nz.co.android.cowseye2.R;
 import nz.co.android.cowseye2.RiverWatchApplication;
 import nz.co.android.cowseye2.event.SubmissionEventBuilder;
-import nz.co.android.cowseye2.fragments.NavigationDrawerFragment;
-import nz.co.android.cowseye2.fragments.RecordLocationFragment;
 import nz.co.android.cowseye2.gps.GPSManager;
 import nz.co.android.cowseye2.gps.MapManager;
 import nz.co.android.cowseye2.gps.MarkerMoveInterface;
@@ -15,14 +13,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.IntentCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,12 +32,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 /**
  * This is the activity for selecting the location of the pollution event
- *
+ * 
  * @author Mitchell Lane
- *
+ * 
  */
-public class RecordLocationActivity extends AbstractSubmissionActivity
-		implements MarkerMoveInterface {
+public class RecordLocationActivity extends ActionBarActivity implements
+		MarkerMoveInterface {
 
 	// private Button backButton;
 	// private Button nextButton;
@@ -64,8 +60,8 @@ public class RecordLocationActivity extends AbstractSubmissionActivity
 		super.onCreate(savedInstanceState);
 		myApplication = (RiverWatchApplication) getApplication();
 		this.savedInstanceState = savedInstanceState;
-		setContentView(R.layout.activity_main);
-		setupDrawer();
+		setContentView(R.layout.location_layout);
+		makeActionBar();
 		// Intent intent = getIntent();
 		// backButton = (Button)findViewById(R.id.backButton);
 		// nextButton = (Button)findViewById(R.id.doneButton);
@@ -73,26 +69,109 @@ public class RecordLocationActivity extends AbstractSubmissionActivity
 		// Utils.BackEventOnClickListener(this));
 
 		mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		int status = GooglePlayServicesUtil
+				.isGooglePlayServicesAvailable(getBaseContext());
 		// Check if GPS enabled
-		if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			buildAlertMessageNoGps(savedInstanceState);
-		} else
-			setupManagers(savedInstanceState);
+		isGPSenabled();
+		if(!isNetworkAvailable()){
+			//initial check
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("No internet connection found. GPS may not be accurate if indoors.")
+			.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					//Nothing should happen
+				}
+			});
+			builder.create();
+			builder.show();
+		}
+		if (status != ConnectionResult.SUCCESS) { // Google Play Services
+			// are not available
+
+			int requestCode = 10;
+			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status,
+					this, requestCode);
+			dialog.show();
+		} else { // Google Play Services are available
+			setUpMapIfNeeded(savedInstanceState);
+		}
 		submissionEventBuilder = SubmissionEventBuilder
 				.getSubmissionEventBuilder(myApplication);
 
 	}
+	
+	/**Online connectivity check*/
+	public boolean isNetworkAvailable() {
+		ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-	private void setupDrawer() {
-		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.navigation_drawer);
-		mTitle = getTitle();
+		// test for connection
+		if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable()
+				&& cm.getActiveNetworkInfo().isConnected()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void isGPSenabled() {
+		LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			// Ask the user to enable GPS
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-		// Set up the drawer.
-		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
-				(DrawerLayout) findViewById(R.id.drawer_layout));
-		mNavigationDrawerFragment.showDrawerToggle(false);
+			builder.setTitle("Location Manager");
+			builder.setMessage("Would you like to enable GPS?");
+			builder.setPositiveButton("Yes",
+					new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// Launch settings, allowing user to make a change
+					Intent i = new Intent(
+							Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					startActivity(i);
+				}
+			});
+			builder.setNegativeButton("No",
+					new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// No location service, no Activity
+					// finish();
+					cantContinueWithoutGPS();
+				}
+			});
+			builder.create().show();
+		}
 
+	}
+	
+	public void cantContinueWithoutGPS() {
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+		builder1.setTitle("Error");
+		builder1.setMessage("You need GPS on to continue");
+		builder1.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO dont do what youre about to do go backto the home screen
+			}
+
+		});
+		builder1.create().show();
+	}
+
+	private void makeActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.map_menu, menu);
+		// inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -110,30 +189,29 @@ public class RecordLocationActivity extends AbstractSubmissionActivity
 		return true;
 	}
 
-	
-	@Override
-	protected void nextActivety() {
-		if (!hasAllDetails()) {
-			Toast.makeText(RecordLocationActivity.this,
-				getResources().getString(R.string.nocoordinates),
-				Toast.LENGTH_SHORT).show();
-		}
-		//GeoCoordinates have been taken and now to move onto the preview Activity
-		else {
+	private void nextActivety() {
+		if (hasAllDetails()) {
+			// Intent intent = buildLocationDataIntent(RESULT_OK);
+			// startActivity(intent);
 			if (dialog != null)
 				dialog.dismiss();
 			if (addressCoordinates != null)
 				submissionEventBuilder.setGeoCoordinates(addressCoordinates);
-				Intent intent = new Intent(RecordLocationActivity.this,
-						PreviewActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-				intent.setFlags(IntentCompat.FLAG_ACTIVITY_TASK_ON_HOME
-						| Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
-			}
-		
+			startActivity(new Intent(RecordLocationActivity.this,
+					PreviewActivity.class));
+
+			// get coordinates from address location
+			// dialog = ProgressDialog.show(LocationActivity.this,
+			// "Acquiring coordinates from address", "Please wait...");
+			// TODO DO NOT
+			// new GeoCodeCoordinatesService(LocationActivity.this,
+			// gpsManager.getGeoCoder(),
+			// addressEditText.getText().toString().trim()).execute();
+		} else
+			Toast.makeText(RecordLocationActivity.this,
+					getResources().getString(R.string.nocoordinates),
+					Toast.LENGTH_SHORT).show();
 	}
-	
 
 	private void buildMapslegalMessage(final Bundle savedInstanceState) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -155,37 +233,6 @@ public class RecordLocationActivity extends AbstractSubmissionActivity
 		alert.show();
 	}
 
-	private void buildAlertMessageNoGps(final Bundle savedInstanceState) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(this.getResources().getString(R.string.gps_message))
-				.setCancelable(false)
-				.setPositiveButton(
-						this.getResources().getString(
-								R.string.positive_button_title),
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int id) {
-								startActivity(new Intent(
-										Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-								setupManagers(savedInstanceState);
-							}
-						})
-				.setNegativeButton(
-						this.getResources().getString(
-								R.string.negative_button_title),
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int id) {
-								dialog.cancel();
-								setupManagers(savedInstanceState);
-							}
-						});
-		final AlertDialog alert = builder.create();
-		alert.show();
-	}
-
 	protected void setupManagers(Bundle savedInstanceState) {
 		int result = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getApplicationContext());
@@ -195,7 +242,7 @@ public class RecordLocationActivity extends AbstractSubmissionActivity
 			dialog.setCancelable(false);
 			dialog.show();
 		}
-		// setUpMapIfNeeded(savedInstanceState);
+		setUpMapIfNeeded(savedInstanceState);
 	}
 
 	@Override
@@ -221,14 +268,17 @@ public class RecordLocationActivity extends AbstractSubmissionActivity
 		if (mMap == null) {
 			Log.d("RecLocAc", "1");
 			// Try to obtain the map from the SupportMapFragment.
-			SupportMapFragment mapFragment = f.getMap(this);
+			SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+					.findFragmentById(R.id.mapview);
 			Log.d("RecLocAc", "2");
 			mMap = mapFragment.getMap();
+			mMap.setMyLocationEnabled(true);
 			Log.d("RecLocAc", "3");
 			if (checkReady()) {
 				Log.d("RecLocAc", "4");
 				// Check if we were successful in obtaining the map.
 				mapManager = MapManager.getInstance(mMap, false, this);
+				
 				gpsManager = GPSManager.getInstance(mapManager,
 						mLocationManager, this, savedInstanceState);
 				Log.d("RecLocAc", "5");
@@ -316,88 +366,7 @@ public class RecordLocationActivity extends AbstractSubmissionActivity
 
 	@Override
 	public void newLatLng(LatLng latlng) {
-		//gpsManager.setAutoUpdateLocation(false);
-		//gpsManager.updateLocationActivity(latlng, true);
 		gpsManager.updateLocationActivity(latlng);
 	}
-	/**
-	 * Fragment managing the behaviors, interactions and presentation of the
-	 * navigation drawer.
-	 */
-	private NavigationDrawerFragment mNavigationDrawerFragment;
 
-	/**
-	 * Used to store the last screen title. For use in
-	 * {@link #restoreActionBar()}.
-	 */
-	private CharSequence mTitle;
-	private boolean justopened = true;
-	private RecordLocationFragment f;
-
-	@Override
-	public void onNavigationDrawerItemSelected(int position) {
-		// update the main content by replacing fragments
-
-		if (justopened) {
-			justopened = false;
-
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			f = RecordLocationFragment.newInstance(position);
-
-			fragmentManager.beginTransaction()
-					.replace(R.id.container, f, "tag_Select_Image_frag")
-					.commit();
-
-		} else {
-
-			myApplication.deleteImage(submissionEventBuilder.getImagePath()
-					.toString());
-
-			Intent i = new Intent(RecordLocationActivity.this,
-					MainScreenActivity.class);
-
-			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-			i.putExtra("selectedItem", position);
-
-			startActivity(i);
-		}
-	}
-
-	public void onSectionAttached(int number) {
-		switch (number) {
-		case 1:
-			mTitle = getString(R.string.title_section1);
-			break;
-		case 2:
-			mTitle = getString(R.string.title_section2);
-			break;
-		case 3:
-			mTitle = getString(R.string.title_section3);
-			break;
-		}
-	}
-
-	public void restoreActionBar() {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(mTitle);
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if (!mNavigationDrawerFragment.isDrawerOpen()) {
-			// Only show items in the action bar relevant to this screen
-			// if the drawer is not showing. Otherwise, let the drawer
-			// decide what to show in the action bar.
-
-			restoreActionBar();
-			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.map_menu, menu);
-			return true;
-		}
-		return super.onCreateOptionsMenu(menu);
-	}
 }
